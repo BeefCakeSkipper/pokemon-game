@@ -37,7 +37,7 @@ for (let i = 0; i < battleZonesData.length; i += 70) {
     battleZonesMap.push(battleZonesData.slice(i, 70 + i))
 }
 
-
+const chanceEncounter = 0.01
 const boundaries = []
 const offset = {
     x: 30,
@@ -121,6 +121,9 @@ const keys = {
     }
 }
 
+const battle = {
+    initiated: false
+}
 
 const moveables = [background, ...boundaries, foreground, ...battleZones]
 
@@ -148,23 +151,51 @@ function animate() {
 
     battleZones.forEach((battleZone) => {
         battleZone.draw()
-        if (collisionDetection({
-            rectangle1: player,
-            rectangle2: battleZone
-        })) {
-            console.log('BZ col');
-        }
     })
 
     player.draw()
     foreground.draw()
     let moving = true
     player.moving = false
+
+    if (battle.initiated) return
+    if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
+        for (let i = 0; i < battleZones.length; i++) {
+            const battleZone = battleZones[i]
+            const overlappingArea = (
+                Math.min(
+                    player.position.x + player.width,
+                    battleZone.position.x + battleZone.width) -
+                Math.max(player.position.x, battleZone.position.x))
+                * (
+                    Math.min(
+                        player.position.y + player.height,
+                        battleZone.position.y + battleZone.height) -
+                    Math.max(
+                        player.position.y, battleZone.position.y))
+
+            if (
+                collisionDetection({
+                    rectangle1: player,
+                    rectangle2: battleZone
+                }) &&
+                overlappingArea > (player.width * player.height) / 2.8
+                && Math.random() < chanceEncounter
+            ) {
+                // console.log(overlappingArea);
+                console.log('Battle Zone Collision');
+                battle.initiated = true
+                break
+            }
+        }
+    }
+
+
     if (keys.w.pressed && lastKey === 'w') {
         // playerImage.src = './img/playerUp.png'
         player.image = player.sprites.up
         for (let i = 0; i < boundaries.length; i++) {
-            
+
             player.moving = true
             const boundary = boundaries[i]
             if (
@@ -184,6 +215,7 @@ function animate() {
                 break
             }
         }
+
         if (moving)
             moveables.forEach((moveable) => {
                 moveable.position.y += 3
