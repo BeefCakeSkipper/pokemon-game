@@ -5,16 +5,25 @@
 </style>
 
 <div>
-  <div style="background-color: black; width: 200px; height: 200px"; position: absolute;></div>
-  <canvas></canvas>
-</div>
-<!-- <script src="data/audio.js"></script> -->
-<script src="assets/battleZones.js"></script>
-<script src="assets/collisions.js"></script>
-<!-- <script src="data/attacks.js"></script> -->
-<!-- <script src="data/monsters.js"></script> -->
-<!-- <script src="data/characters.js"></script> -->
-<!-- <script src="js/utils.js"></script> -->
-<script src="/assets/classes.js"></script> -->
-<script src="index.js"></script>
-<!-- <script src="battleScene.js"></script> --> -->
+  <div style="display: inline-block; position: relative;">
+    <div
+    id="overlappingBattle"
+      style="background-color: black; position: absolute; top: 0; right: 0; left: 0;bottom: 0;opacity: 0; pointer-events: none;">
+    </div>
+    <!-- <canvas style="position: absolute; top: 0; right: 0; left: 0;bottom: 0;"></canvas> -->
+    <canvas></canvas>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+    integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+  <!-- <script src="data/audio.js"></script> -->
+  <script src="assets/battleZones.js"></script>
+  <script src="assets/collisions.js"></script>
+  <!-- <script src="data/attacks.js"></script> -->
+  <!-- <script src="data/monsters.js"></script> -->
+  <!-- <script src="data/characters.js"></script> -->
+  <!-- <script src="js/utils.js"></script> -->
+  <script src="/assets/classes.js"></script> -->
+  <script src="index.js"></script>
+  <!-- <script src="battleScene.js"></script> --> -->

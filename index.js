@@ -3,6 +3,7 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
+console.log(gsap);
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
@@ -137,7 +138,7 @@ function collisionDetection({ rectangle1, rectangle2 }) {
     )
 }
 function animate() {
-    window.requestAnimationFrame(animate) //Loops the animate function
+    const animationId = window.requestAnimationFrame(animate) //Loops the animate function
     background.draw()
     boundaries.forEach(boundary => {
         boundary.draw()
@@ -184,7 +185,24 @@ function animate() {
             ) {
                 // console.log(overlappingArea);
                 console.log('Battle Zone Collision');
+                window.cancelAnimationFrame(animationId)
                 battle.initiated = true
+                gsap.to('#overlappingBattle', {
+                    opacity: 1,
+                    repeat: 3,
+                    yoyo: true,
+                    duration: 0.4,
+                    onComplete() {
+                        gsap.to('#overlappingBattle', {
+                            opacity: 1,
+                            duration: 0.4,
+                            onComplete() {
+                            animateBattle()
+                            }
+                        })
+
+                    }
+                })
                 break
             }
         }
@@ -320,6 +338,22 @@ function resizeCanvas() {
 
 
 animate();
+
+// const battleImage() = new Image()
+// battleImage.src = '/img/battleBackground.png'
+// const battleBackground = new Sprite({
+//     position: {
+//         x: 0,
+//         y: 0
+//     },
+//     image: battleImage
+// }
+// })
+function animateBattle() {
+    window.requestAnimationFrame(animateBattle)
+    battleBackground.draw()
+
+}
 // Listener events
 // resize the canvas to fill browser window dynamically
 window.addEventListener('resize', resizeCanvas, false);
