@@ -198,6 +198,11 @@ function animate() {
                             duration: 0.4,
                             onComplete() {
                             animateBattle()
+                            gsap.to('#overlappingBattle', {
+                                opacity: 1,
+                                duration: 0.4,
+
+                            })
                             }
                         })
 
@@ -337,23 +342,25 @@ function resizeCanvas() {
 }
 
 
-animate();
+const battleImage = new Image()
+battleImage.src = '/img/battleBackground.png'
+const battleBackground = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    image: battleImage
+}
+)
 
-// const battleImage() = new Image()
-// battleImage.src = '/img/battleBackground.png'
-// const battleBackground = new Sprite({
-//     position: {
-//         x: 0,
-//         y: 0
-//     },
-//     image: battleImage
-// }
-// })
 function animateBattle() {
     window.requestAnimationFrame(animateBattle)
     battleBackground.draw()
 
 }
+
+animate();
+
 // Listener events
 // resize the canvas to fill browser window dynamically
 window.addEventListener('resize', resizeCanvas, false);

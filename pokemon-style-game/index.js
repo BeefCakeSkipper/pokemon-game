@@ -245,20 +245,20 @@ function animate() {
         audio.battle.play()
 
         battle.initiated = true
-        gsap.to('#overlappingDiv', {
+        gsap.to('#overlappingBattle', {
           opacity: 1,
           repeat: 3,
           yoyo: true,
           duration: 0.4,
           onComplete() {
-            gsap.to('#overlappingDiv', {
+            gsap.to('#overlappingBattle', {
               opacity: 1,
               duration: 0.4,
               onComplete() {
                 // activate a new animation loop
                 initBattle()
                 animateBattle()
-                gsap.to('#overlappingDiv', {
+                gsap.to('#overlappingBattle', {
                   opacity: 0,
                   duration: 0.4
                 })
