@@ -28,22 +28,7 @@ const foregroundImage = new Image()
 foregroundImage.src = './img/foregroundObjects.png'
 
 
-const battleImage = new Image()
-battleImage.src = '/img/battleBackground.png'
-const battleBackground = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    image: battleImage
-}
-)
 
-function animateBattle() {
-    window.requestAnimationFrame(animateBattle)
-    battleBackground.draw()
-
-}
 
 
 const collisionsMap = []
@@ -98,7 +83,8 @@ const player = new Sprite({
     },
     image: playerDownImage,
     frames: {
-        max: 4
+        max: 4,
+        hold: 10
     },
     sprites: {
         up: playerUpImage,
@@ -176,7 +162,7 @@ function animate() {
     player.draw()
     foreground.draw()
     let moving = true
-    player.moving = false
+    player.animate = false
 
     if (battle.initiated) return
     if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
@@ -216,15 +202,15 @@ function animate() {
                             opacity: 1,
                             duration: 0.4,
                             onComplete() {
-                            animateBattle()
-                            gsap.to('#overlappingBattle', {
-                                opacity: 0,
-                                duration: 0.4,
+                                // c.fillStyle(0,0,0,0)
+                                animateBattle()
+                                gsap.to('#overlappingBattle', {
+                                    opacity: 0,
+                                    duration: 0.4,
 
-                            })
+                                })
                             }
                         })
-
                     }
                 })
                 break
@@ -238,7 +224,7 @@ function animate() {
         player.image = player.sprites.up
         for (let i = 0; i < boundaries.length; i++) {
 
-            player.moving = true
+            player.animate = true
             const boundary = boundaries[i]
             if (
                 collisionDetection({
@@ -267,7 +253,7 @@ function animate() {
         // playerImage.src = './img/playerDown.png'
         player.image = player.sprites.down
         for (let i = 0; i < boundaries.length; i++) {
-            player.moving = true
+            player.animate = true
             const boundary = boundaries[i]
             if (
                 collisionDetection({
@@ -295,7 +281,7 @@ function animate() {
         // playerImage.src = './img/playerLeft.png'
         player.image = player.sprites.left
         for (let i = 0; i < boundaries.length; i++) {
-            player.moving = true
+            player.animate = true
             const boundary = boundaries[i]
             if (
                 collisionDetection({
@@ -323,7 +309,7 @@ function animate() {
         player.image = player.sprites.right
         // playerImage.src = './img/playerRight.png'
         for (let i = 0; i < boundaries.length; i++) {
-            player.moving = true
+            player.animate = true
             const boundary = boundaries[i]
             if (
                 collisionDetection({
@@ -360,9 +346,59 @@ function resizeCanvas() {
     animate()
 }
 
+const battleImage = new Image()
+battleImage.src = '/img/battleBackground.png'
+const battleBackground = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    image: battleImage
+}
+)
 
+const draggleImage = new Image()
+draggleImage.src = '/img/draggleSprite.png'
+const draggle = new Sprite({
+    position: {
+        x: canvas.width*0.8,
+        y: canvas.height*0.25
+    },
+    image: draggleImage,
+    frames: {
+        max: 4,
+        hold: 30
+    },
+    animate: true,
+    slowdown: true
+})
 
-animate();
+const embyImage = new Image()
+embyImage.src = '/img/embySprite.png'
+const emby = new Sprite({
+    position: {
+        x: canvas.width*0.32,
+        y: canvas.height*0.65
+    },
+    image: embyImage,
+    frames: {
+        max: 4,
+        hold: 30
+    },
+    animate: true,
+    slowdown: false
+})
+
+function animateBattle() {
+    window.requestAnimationFrame(animateBattle)
+    c.drawImage(battleBackground.image, 0, 0, battleImage.width, battleImage.height, 0, 0, canvas.width, canvas.height)
+    draggle.draw()
+    emby.draw()
+
+}
+
+// animate();
+animateBattle()
 
 // Listener events
 // resize the canvas to fill browser window dynamically

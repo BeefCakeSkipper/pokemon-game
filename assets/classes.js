@@ -13,7 +13,7 @@ class Boundary {
 
 
 class Sprite {
-    constructor({ position, velocity, image, frames = { max: 1 }, sprites}) {
+    constructor({ position, velocity, image, frames = { max: 1 , hold: 10}, sprites, animate = false,slowdown = false}) {
         this.position = position
         this.image = image
         this.frames = { ...frames, val: 0, elapsed: 0}
@@ -21,8 +21,9 @@ class Sprite {
             this.width = this.image.width / this.frames.max
             this.height = this.image.height
         }
-        this.moving = false 
+        this.animate = animate 
         this.sprites = sprites
+        this.slowdown = slowdown
     }   
     draw() {
         c.drawImage(
@@ -36,11 +37,11 @@ class Sprite {
             this.image.width / this.frames.max, //Actual coordinates of player 
             this.image.height //Actual coordinates of player
         )
-        if (!this.moving) return
-        // if (this.frames.max > 1){
-        //     this.frames.elapsed++
-        // }
-        if (this.frames.elapsed % 15 === 0){
+        if (!this.animate) return
+        if (this.frames.max > 1 &&  this.slowdown === true){
+            this.frames.elapsed++
+        }
+        if (this.frames.elapsed % this.frames.hold === 0){
         if (this.frames.val < this.frames.max - 1 ) this.frames.val++
         else this.frames.val = 0
     }
