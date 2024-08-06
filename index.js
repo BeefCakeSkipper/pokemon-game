@@ -27,6 +27,25 @@ playerRightImage.src = './img/playerRight.png'
 const foregroundImage = new Image()
 foregroundImage.src = './img/foregroundObjects.png'
 
+
+const battleImage = new Image()
+battleImage.src = '/img/battleBackground.png'
+const battleBackground = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    image: battleImage
+}
+)
+
+function animateBattle() {
+    window.requestAnimationFrame(animateBattle)
+    battleBackground.draw()
+
+}
+
+
 const collisionsMap = []
 for (let i = 0; i < collisions.length; i += 70) {
     collisionsMap.push(collisions.slice(i, 70 + i))
@@ -199,7 +218,7 @@ function animate() {
                             onComplete() {
                             animateBattle()
                             gsap.to('#overlappingBattle', {
-                                opacity: 1,
+                                opacity: 0,
                                 duration: 0.4,
 
                             })
@@ -342,22 +361,6 @@ function resizeCanvas() {
 }
 
 
-const battleImage = new Image()
-battleImage.src = '/img/battleBackground.png'
-const battleBackground = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    image: battleImage
-}
-)
-
-function animateBattle() {
-    window.requestAnimationFrame(animateBattle)
-    battleBackground.draw()
-
-}
 
 animate();
 
