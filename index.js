@@ -2,7 +2,7 @@
 //Background image set up
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-
+let frame = ''
 console.log(gsap);
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -143,6 +143,7 @@ function collisionDetection({ rectangle1, rectangle2 }) {
     )
 }
 function animate() {
+    frame = 'animate'
     const animationId = window.requestAnimationFrame(animate) //Loops the animate function
     background.draw()
     boundaries.forEach(boundary => {
@@ -335,17 +336,6 @@ function animate() {
     }
 }
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    /**
-     * Your drawings need to be inside this function otherwise they will be reset when 
-     * you resize the browser window and the canvas goes will be cleared.
-     */
-    animate()
-}
-
 const battleImage = new Image()
 battleImage.src = '/img/battleBackground.png'
 const battleBackground = new Sprite({
@@ -370,7 +360,9 @@ const draggle = new Sprite({
         hold: 30
     },
     animate: true,
-    slowdown: true
+    slowdown: true,
+    maxHealth: 100,
+    isEnemy : true
 })
 
 const embyImage = new Image()
@@ -386,10 +378,12 @@ const emby = new Sprite({
         hold: 30
     },
     animate: true,
-    slowdown: false
+    slowdown: false,
+    maxHealth: 120
 })
 
 function animateBattle() {
+    frame = 'aniamteBattle'
     window.requestAnimationFrame(animateBattle)
     c.drawImage(battleBackground.image, 0, 0, battleImage.width, battleImage.height, 0, 0, canvas.width, canvas.height)
     draggle.draw()
@@ -397,9 +391,28 @@ function animateBattle() {
 
 }
 
+document.querySelectorAll('button').forEach((button) => {
+    button.addEventListener('click', (e) => {
+        const selectedAttack = attacks[e.currentTarget.innerHTML]
+        emby.attack({
+            attack: selectedAttack, 
+            target: draggle
+        })
+    })
+})
 // animate();
-animateBattle()
 
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    /**
+     * Your drawings need to be inside this function otherwise they will be reset when 
+     * you resize the browser window and the canvas goes will be cleared.
+     */
+    window[frame]();
+}
 // Listener events
 // resize the canvas to fill browser window dynamically
 window.addEventListener('resize', resizeCanvas, false);
@@ -445,6 +458,6 @@ window.addEventListener('keyup', (e) => {
 })
 
 
-
-
+animateBattle()
+// animate()
 

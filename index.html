@@ -2,6 +2,32 @@
   body {
     background-color: black;
   }
+
+  h1 {
+    margin: 0;
+  }
+
+  button {
+    border: 0;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: #ddd;
+    font-size: 18px;
+  }
+
+  @font-face {
+    font-family: 'Pokemon Classic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Pokemon Classic'), url('/font/Pokemon Classic.woff') format('woff');
+  }
+
+  * {
+    font-family: 'Pokemon Classic';
+  }
 </style>
 
 <div>
@@ -15,37 +41,84 @@
       bottom: 0;
       opacity: 0; 
       pointer-events: none;">
-      <!-- <img style="width: 100%; height:100%; object-fit: cover;"/> -->
     </div>
-    <!-- <canvas style="position: absolute; top: 0; right: 0; left: 0;bottom: 0;"></canvas> -->
+
+
+    <!-- Enemy HTML elements  -->
+    <div style="
+      background-color: white;
+      width: 25%;
+      height: 3%;
+      position: absolute;
+      top: 5%;
+      left: 5%;
+      border: 4px black solid;
+      padding: 1%">
+      <h1 style="font-size: 16px;">Draggle</h1>
+      <div style="position: relative;">
+        <div style="height:18%;width:100%; background-color: ccc; margin-top: 2%;"></div>
+        <div id ='enemyHealth'style="height:100%;width:100%; background-color: green; position: absolute; top: 0;left:0;right:0;"></div>
+      </div>
+    </div>
+
+    <!-- Player HTML elements  -->
+    <div style="
+      background-color: white;
+      width: 25%;
+      height: 3%;
+      position: absolute;
+      bottom: 28%;
+      right: 5%;
+      border: 4px black solid;
+      padding: 1%">
+<h1 style="font-size: 16px;">Skooma Addict</h1>
+<div style="position: relative;">
+  <div style="height:18%;width:100%; background-color: ccc; margin-top: 2%;"></div>
+  <div id='playerHealth'style="height:100%; background-color: green; position: absolute; top: 0;left:0;right:0;"></div>
+</div>
+    </div>
+
+
+    
+
     <canvas></canvas>
     <div style="
     background-color: white;
-    height:300px; 
+    height:20%; 
     position: absolute; 
     bottom: 0; 
     left: 0; 
     right: 0; 
-    border-top: 6px black solid;">
-<div>
-  <button>Attack 1</button>
-  <button>Attack 1</button>
-  <button>Attack 1</button>
-  <button>Attack 1</button>
-</div>
-<div>
-  <h1>Attack Type</h1>
-</div>
+    border-top: 6px black solid;
+    display: flex">
+      <div style="
+          width:66.6%;
+          display: grid;
+          grid-template-columns: repeat(2,1fr);">
+        <button>Tackle</button>
+        <button>Fireball</button>
+        <button>Attack 3</button>
+        <button>Attack 4</button>
+      </div>
+      <div style="
+          display: flex; 
+          align-items: 
+          center; justify-content: 
+          center; width: 33.33%;
+          border-left: 6px black solid;">
+        <h1 style="font-size: 16px;">Attack Type</h1>
+      </div>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
     integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
+  <link rel="stylesheet" href="/font/styles.css" type="text/css" charset="utf-8" />
   <!-- <script src="data/audio.js"></script> -->
   <script src="assets/battleZones.js"></script>
   <script src="assets/collisions.js"></script>
-  <!-- <script src="data/attacks.js"></script> -->
+  <script src="assets/attacks.js"></script>
   <!-- <script src="data/monsters.js"></script> -->
   <!-- <script src="data/characters.js"></script> -->
   <!-- <script src="js/utils.js"></script> -->
