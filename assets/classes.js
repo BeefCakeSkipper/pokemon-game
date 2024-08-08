@@ -14,7 +14,19 @@ class Boundary {
 
 
 class Sprite {
-    constructor({ position, velocity, image, frames = { max: 1, hold: 10 }, sprites, animate = false, slowdown = false, maxHealth, health, isEnemy = false }) {
+    constructor({
+        position,
+        velocity,
+        image, frames = { max: 1, hold: 10 },
+        sprites,
+        animate = false,
+        slowdown = false,
+        maxHealth, health,
+        isEnemy = false,
+        rotation = 0,
+        name,
+        displayName
+    }) {
         this.position = position
         this.image = image
         this.frames = { ...frames, val: 0, elapsed: 0 }
@@ -29,10 +41,16 @@ class Sprite {
         this.maxHealth = maxHealth
         this.health = maxHealth
         this.isEnemy = isEnemy
+        this.rotation = rotation
+        this.name = name
+        this.displayName = name
     }
 
     draw() {
         c.save()
+        c.translate(this.position.x + this.width / 2, this.position.y + this.height / 2)
+        c.rotate(this.rotation)
+        c.translate(-this.position.x - this.width / 2, -this.position.y - this.height / 2)
         c.globalAlpha = this.opacity
         c.drawImage(
             this.image,
@@ -56,9 +74,21 @@ class Sprite {
         }
     }
 
-    attack({ attack, target }) {
+    attack({ attack, target, renderedSprites }) {
+        //GLobal variables when attacking 
+        document.querySelector('#dialogueBox').style.display = 'block'
+        document.querySelector('#dialogueBox').innerHTML = this.displayName + ' used ' + attack.name
+        this.health -= attack.damage
+        let movementDistance = 20
+        if (this.isEnemy) movementDistance = -20
+        let healthBar = '#enemyHealth'
+        if (this.isEnemy) healthBar = '#playerHealth'
+        let rotation = 1
+        if (this.isEnemy) rotation = -2.5
+
         switch (attack.name) {
             case 'Fireball':
+                console.log('fireball is supposed to be here');
                 const fireballImage = new Image()
                 fireballImage.src = '/img/fireball.png'
                 const fireball = new Sprite({
@@ -66,23 +96,21 @@ class Sprite {
                         x: this.position.x,
                         y: this.position.y
                     },
-                    image: fireballImage  
+                    image: fireballImage,
+                    frames: {
+                        max: 4,
+                        hold: 10
+                    },
+                    animate: true,
+                    slowdown: true,
+                    rotation: rotation
                 })
-                break
-            case 'Tackle':
-                const tl = gsap.timeline()
-                this.health -= attack.damage
-                let movementDistance = 20
-                if (this.isEnemy) movementDistance = -20
-                let healthBar = '#enemyHealth'
-                if (this.isEnemy) healthBar = '#playerHealth'
-
-                tl.to(this.position, {
-                    x: this.position.x - movementDistance
-                }).to(this.position, {
-                    x: this.position.x + (movementDistance * 3),
-                    duration: 0.2,
+                renderedSprites.splice(1, 0, fireball)
+                gsap.to(fireball.position, {
+                    x: target.position.x,
+                    y: target.position.y,
                     onComplete: () => {
+                        // Pokemon gets hit
                         gsap.to(healthBar, {
                             width: (this.health / this.maxHealth) * 100 + '%'
                         })
@@ -90,7 +118,51 @@ class Sprite {
                             x: target.position.x + 10,
                             yoyo: true,
                             repeat: 4,
+                            duration: 0.07,
+                            onComplete() {
+                                gsap.to(target.position,
+                                    {
+                                        x: target.position.x - 10
+                                    }
+                                )
+                            }
+                        })
+                        gsap.to(target, {
+                            opacity: 0,
+                            repeat: 5,
+                            yoyo: true,
                             duration: 0.07
+                        })
+                        renderedSprites.splice(1, 1)
+                    }
+                }
+                )
+                break
+            case 'Tackle':
+                const tl = gsap.timeline()
+                tl.to(this.position, {
+                    x: this.position.x - movementDistance
+                }).to(this.position, {
+                    x: this.position.x + (movementDistance * 3),
+                    duration: 0.2,
+                    onComplete: () => {
+
+                        // Pokemon gets hit
+                        gsap.to(healthBar, {
+                            width: (this.health / this.maxHealth) * 100 + '%'
+                        })
+                        gsap.to(target.position, {
+                            x: target.position.x + 10,
+                            yoyo: true,
+                            repeat: 4,
+                            duration: 0.07,
+                            onComplete() {
+                                gsap.to(target.position,
+                                    {
+                                        x: target.position.x - 10
+                                    }
+                                )
+                            }
                         })
                         gsap.to(target, {
                             opacity: 0,

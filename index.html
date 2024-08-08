@@ -1,6 +1,8 @@
 <style>
   body {
     background-color: black;
+    height:100%;
+    overflow: hidden;
   }
 
   h1 {
@@ -31,7 +33,7 @@
 </style>
 
 <div>
-  <div style="display: inline-block; position: relative;">
+  <div style="display: inline-block; position: relative; height: 98%;width: 100%;">
     <div id="overlappingBattle" style="
       background-color: rgb(0, 0, 0); 
       position: absolute; 
@@ -57,7 +59,8 @@
       <h1 style="font-size: 16px;">Draggle</h1>
       <div style="position: relative;">
         <div style="height:18%;width:100%; background-color: ccc; margin-top: 2%;"></div>
-        <div id ='enemyHealth'style="height:100%;width:100%; background-color: green; position: absolute; top: 0;left:0;right:0;"></div>
+        <div id='enemyHealth'
+          style="height:100%;width:100%; background-color: green; position: absolute; top: 0;left:0;right:0;"></div>
       </div>
     </div>
 
@@ -71,17 +74,18 @@
       right: 5%;
       border: 4px black solid;
       padding: 1%">
-<h1 style="font-size: 16px;">Skooma Addict</h1>
-<div style="position: relative;">
-  <div style="height:18%;width:100%; background-color: ccc; margin-top: 2%;"></div>
-  <div id='playerHealth'style="height:100%; background-color: green; position: absolute; top: 0;left:0;right:0;"></div>
-</div>
+      <h1 style="font-size: 16px;">Skooma Addict</h1>
+      <div style="position: relative;">
+        <div style="height:18%;width:100%; background-color: ccc; margin-top: 2%;"></div>
+        <div id='playerHealth' style="height:100%; background-color: green; position: absolute; top: 0;left:0;right:0;">
+        </div>
+      </div>
     </div>
 
 
-    
 
-    <canvas></canvas>
+
+    <canvas style="width:100%;height: 100%; "></canvas>
     <div style="
     background-color: white;
     height:20%; 
@@ -91,6 +95,13 @@
     right: 0; 
     border-top: 6px black solid;
     display: flex">
+      <div id="dialogueBox" 
+      style="
+      position: absolute; 
+      top: 0; left: 0; bottom: 0;right: 0 ;
+      background-color: white; 
+      padding: 5%;
+      display: none;"></div>
       <div style="
           width:66.6%;
           display: grid;
@@ -124,4 +135,4 @@
   <!-- <script src="js/utils.js"></script> -->
   <script src="/assets/classes.js"></script> -->
   <script src="index.js"></script>
-  <!-- <script src="battleScene.js"></script> --> -->
+  <script src="/assets/battleScene.js"></script> -->

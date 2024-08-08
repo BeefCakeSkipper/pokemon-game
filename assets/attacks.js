@@ -5,7 +5,7 @@ const attacks = {
         type: 'Normal'
     },
     Fireball: {
-        name: 'FireBall',
+        name: 'Fireball',
         damage: 25,
         type: 'Fire'
     }

@@ -362,7 +362,8 @@ const draggle = new Sprite({
     animate: true,
     slowdown: true,
     maxHealth: 100,
-    isEnemy : true
+    isEnemy : true,
+    name: 'Draggle'
 })
 
 const embyImage = new Image()
@@ -379,25 +380,33 @@ const emby = new Sprite({
     },
     animate: true,
     slowdown: false,
-    maxHealth: 120
+    maxHealth: 120,
+    name: 'Emby'
 })
 
+const renderedSprites = [draggle, emby]
 function animateBattle() {
-    frame = 'aniamteBattle'
+    frame = 'animateBattle'
     window.requestAnimationFrame(animateBattle)
     c.drawImage(battleBackground.image, 0, 0, battleImage.width, battleImage.height, 0, 0, canvas.width, canvas.height)
-    draggle.draw()
-    emby.draw()
+
+    renderedSprites.forEach((sprite) => {
+        sprite.draw()
+
+
+    })
 
 }
 
 document.querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', (e) => {
         const selectedAttack = attacks[e.currentTarget.innerHTML]
-        emby.attack({
+        draggle.attack({
             attack: selectedAttack, 
-            target: draggle
+            target: emby,
+            renderedSprites
         })
+        console.log(renderedSprites);
     })
 })
 // animate();
@@ -411,11 +420,12 @@ function resizeCanvas() {
      * Your drawings need to be inside this function otherwise they will be reset when 
      * you resize the browser window and the canvas goes will be cleared.
      */
-    window[frame]();
+    // window[frame]();
+    window[requestAnimationFrame(frame)];
 }
 // Listener events
 // resize the canvas to fill browser window dynamically
-window.addEventListener('resize', resizeCanvas, false);
+window.addEventListener('resize', resizeCanvas, true);
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
         case 'w':
