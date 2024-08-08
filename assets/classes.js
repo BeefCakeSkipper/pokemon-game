@@ -21,7 +21,7 @@ class Sprite {
         sprites,
         animate = false,
         slowdown = false,
-        maxHealth, health,
+        maxHealth,
         isEnemy = false,
         rotation = 0,
         name,
@@ -78,11 +78,13 @@ class Sprite {
         //GLobal variables when attacking 
         document.querySelector('#dialogueBox').style.display = 'block'
         document.querySelector('#dialogueBox').innerHTML = this.displayName + ' used ' + attack.name
+        
+        // wait_dialogue()
         this.health -= attack.damage
         let movementDistance = 20
         if (this.isEnemy) movementDistance = -20
-        let healthBar = '#enemyHealth'
-        if (this.isEnemy) healthBar = '#playerHealth'
+        let healthBar = '#playerHealth'
+        if (this.isEnemy) healthBar = '#enemyHealth'
         let rotation = 1
         if (this.isEnemy) rotation = -2.5
 

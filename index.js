@@ -336,7 +336,16 @@ function animate() {
     }
 }
 
-
+// function wait_dialogue() {
+//     document.getElementById('dialogueBox').style['pointer-events'] = 'none'
+//     gsap.to('#dialogueBox', {
+//         duration: 2,
+//         onComplete() {
+//             document.getElementById('dialogueBox').style['pointer-events'] = 'auto'
+            
+//         }
+//     })
+// }
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -351,7 +360,7 @@ function resizeCanvas() {
 }
 // Listener events
 // resize the canvas to fill browser window dynamically
-window.addEventListener('resize', resizeCanvas, true);
+window.addEventListener('resize', resizeCanvas);
 window.addEventListener('keydown', (e) => {
     switch (e.key) {
         case 'w':
