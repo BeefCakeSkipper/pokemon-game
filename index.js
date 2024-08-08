@@ -421,7 +421,7 @@ function resizeCanvas() {
      * you resize the browser window and the canvas goes will be cleared.
      */
     // window[frame]();
-    window[requestAnimationFrame(frame)];
+    window[requestAnimationFrame(frame)]();
 }
 // Listener events
 // resize the canvas to fill browser window dynamically

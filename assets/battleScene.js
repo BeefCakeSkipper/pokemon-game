@@ -71,3 +71,5 @@ document.querySelectorAll('button').forEach((button) => {
         console.log(renderedSprites);
     })
 })
+// animate();
+
