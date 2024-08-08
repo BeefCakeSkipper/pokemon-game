@@ -71,4 +71,5 @@ document.querySelectorAll('button').forEach((button) => {
         console.log(renderedSprites);
     })
 })
+
 animateBattle()
