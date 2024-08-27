@@ -26,7 +26,8 @@ const monsters = {
         animate: true,
         slowdown: false,
         maxHealth: 220,
-        name: 'Emby'
+        name: 'Emby',
+        attacks: [attacks.Tackle, attacks.Fireball]
     },
     Draggle: {
         position: enemyPos,
@@ -39,6 +40,7 @@ const monsters = {
         slowdown: true,
         maxHealth: 100,
         isEnemy: true,
-        name: 'Draggle'
+        name: 'Draggle',
+        attacks: [attacks.Tackle]
     }
 }

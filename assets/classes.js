@@ -73,7 +73,9 @@ class Sprite {
             else this.frames.val = 0
         }
     }
+}
 
+class Monster extends Sprite {
     attack({ attack, target, renderedSprites }) {
         //GLobal variables when attacking 
         document.querySelector('#dialogueBox').style.display = 'block'
@@ -178,7 +180,5 @@ class Sprite {
                 })
                 break;
         }
-
-
     }
 }
