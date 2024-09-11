@@ -7,7 +7,8 @@ canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
 const image = new Image()
-image.src = './img/Pellet Town.png'
+// image.src = './img/Pellet Town.png'
+image.src = './img/Himippy Town.png'
 
 //PLayer Image Set up
 const playerDownImage = new Image()
