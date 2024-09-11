@@ -1,6 +1,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-This is a pokemon styled game that I am developing as a way to learn JavaScript.
+This is a pokemon styled game that I am developing as a way to learn JavaScript. I used the live server VS Code extension to test and run this project. 
 
 ### Built With
 
