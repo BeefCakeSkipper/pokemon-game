@@ -1,11 +1,6 @@
-const embyImage = new Image()
-embyImage.src = './img/embySprite.png'
-
 width = window.innerWidth
 height = window.innerHeight
  
-const draggleImage = new Image()
-draggleImage.src = './img/draggleSprite.png'
 const enemyPos = {
     x: width * 0.8,
     y: height * 0.25
@@ -18,20 +13,24 @@ const playerPos = {
 const monsters = {
     Emby: {
         position: playerPos,
-        image: embyImage,
+        image: {
+            src: './img/embySprite.png'
+        },
         frames: {
             max: 4,
             hold: 30
         },
         animate: true,
         slowdown: false,
-        maxHealth: 220,
+        maxHealth: 100,
         name: 'Emby',
         attacks: [attacks.Tackle, attacks.Fireball]
     },
     Draggle: {
         position: enemyPos,
-        image: draggleImage,
+        image: {
+            src: './img/draggleSprite.png'
+        },
         frames: {
             max: 4,
             hold: 30
@@ -41,6 +40,6 @@ const monsters = {
         maxHealth: 100,
         isEnemy: true,
         name: 'Draggle',
-        attacks: [attacks.Tackle]
+        attacks: [attacks.Tackle, attacks.Fireball]
     }
 }

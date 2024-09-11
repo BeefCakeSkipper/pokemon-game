@@ -3,13 +3,11 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 let frame = ''
-console.log(gsap);
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
 const image = new Image()
 image.src = './img/Pellet Town.png'
-console.log(image);
 
 //PLayer Image Set up
 const playerDownImage = new Image()
@@ -189,10 +187,11 @@ function animate() {
                 overlappingArea > (player.width * player.height) / 2.8
                 && Math.random() < chanceEncounter
             ) {
-                // console.log(overlappingArea);
-                console.log('Battle Zone Collision');
                 window.cancelAnimationFrame(animationId)
+                audio.Map.stop()
                 battle.initiated = true
+                audio.InitBattle.play()
+                audio.Battle.play()
                 gsap.to('#overlappingBattle', {
                     opacity: 1,
                     repeat: 3,
@@ -204,6 +203,7 @@ function animate() {
                             duration: 0.4,
                             onComplete() {
                                 // c.fillStyle(0,0,0,0)
+                                initBattle( )
                                 animateBattle()
                                 gsap.to('#overlappingBattle', {
                                     opacity: 0,
@@ -239,7 +239,6 @@ function animate() {
                     }
                 })
             ) {
-                console.log('collidingggg');
                 moving = false
                 break
             }
@@ -268,7 +267,6 @@ function animate() {
                     }
                 })
             ) {
-                console.log('collidingggg');
                 moving = false
                 break
             }
@@ -296,7 +294,6 @@ function animate() {
                     }
                 })
             ) {
-                console.log('collidingggg');
                 moving = false
                 break
             }
@@ -308,7 +305,7 @@ function animate() {
     }
     else if (keys.d.pressed && lastKey === 'd') {
         player.image = player.sprites.right
-        // playerImage.src = './img/playerRight.png'
+
         for (let i = 0; i < boundaries.length; i++) {
             player.animate = true
             const boundary = boundaries[i]
@@ -336,16 +333,6 @@ function animate() {
     }
 }
 
-// function wait_dialogue() {
-//     document.getElementById('dialogueBox').style['pointer-events'] = 'none'
-//     gsap.to('#dialogueBox', {
-//         duration: 2,
-//         onComplete() {
-//             document.getElementById('dialogueBox').style['pointer-events'] = 'auto'
-            
-//         }
-//     })
-// }
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -380,7 +367,6 @@ window.addEventListener('keydown', (e) => {
             lastKey = 'd'
             break
     }
-    console.log(keys);
 })
 
 window.addEventListener('keyup', (e) => {
@@ -399,10 +385,14 @@ window.addEventListener('keyup', (e) => {
             break
 
     }
-    console.log(keys);
 })
 
+let clicked = false 
+addEventListener('keypress', () => {
+    if (!clicked){
+        audio.Map.play()
+        clicked = true
+    }
+})
 
-
-// animate()
 

@@ -7,7 +7,7 @@ class Boundary {
         this.height = 48
     }
     draw() {
-        c.fillStyle = 'rgba(255,0,0,1)'
+        c.fillStyle = 'rgba(255,0,0,0)'
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
@@ -21,29 +21,22 @@ class Sprite {
         sprites,
         animate = false,
         slowdown = false,
-        maxHealth,
-        isEnemy = false,
-        rotation = 0,
-        name,
-        displayName
+        rotation = 0
     }) {
         this.position = position
-        this.image = image
-        this.frames = { ...frames, val: 0, elapsed: 0 }
+        this.image = new Image()
         this.image.onload = () => {
             this.width = this.image.width / this.frames.max
             this.height = this.image.height
         }
+        this.frames = { ...frames, val: 0, elapsed: 0 }
+        this.image.src = image.src
         this.animate = animate
         this.sprites = sprites
         this.slowdown = slowdown
         this.opacity = 1
-        this.maxHealth = maxHealth
-        this.health = maxHealth
-        this.isEnemy = isEnemy
         this.rotation = rotation
-        this.name = name
-        this.displayName = name
+
     }
 
     draw() {
@@ -76,25 +69,70 @@ class Sprite {
 }
 
 class Monster extends Sprite {
+    constructor({
+        position,
+        velocity,
+        image, frames = { max: 1, hold: 10 },
+        sprites,
+        animate = false,
+        slowdown = false,
+        rotation = 0,
+        isEnemy = false,
+        maxHealth,
+        name,
+        displayName,
+        attacks
+    }) {
+        super({
+            position,
+            velocity,
+            image,
+            frames,
+            sprites,
+            animate,
+            slowdown,
+            rotation,
+
+        })
+        this.maxHealth = maxHealth
+        this.health = maxHealth
+        this.isEnemy = isEnemy
+        this.name = name
+        this.displayName = name
+        this.attacks = attacks
+    }
+
+    faint() {
+        document.querySelector('#dialogueBox').innerHTML = this.displayName + ' has dieded! '
+        audio.Battle.stop()
+        audio.Victory.play()
+        gsap.to(this.position, {
+            y: this.position.y + 20
+        })
+        gsap.to(this, {
+            opacity: 0
+        })
+    }
+
     attack({ attack, target, renderedSprites }) {
         //GLobal variables when attacking 
         document.querySelector('#dialogueBox').style.display = 'block'
         document.querySelector('#dialogueBox').innerHTML = this.displayName + ' used ' + attack.name
-        
+
         // wait_dialogue()
-        this.health -= attack.damage
+        // target.health -= attack.damage
         let movementDistance = 20
         if (this.isEnemy) movementDistance = -20
-        let healthBar = '#playerHealth'
-        if (this.isEnemy) healthBar = '#enemyHealth'
+        let healthBar = '#enemyHealth'
+        if (this.isEnemy) healthBar = '#playerHealth'
         let rotation = 1
         if (this.isEnemy) rotation = -2.5
-
+        target.health -= attack.damage
         switch (attack.name) {
             case 'Fireball':
-                console.log('fireball is supposed to be here');
                 const fireballImage = new Image()
                 fireballImage.src = '/img/fireball.png'
+                audio.InitFireball.play()
                 const fireball = new Sprite({
                     position: {
                         x: this.position.x,
@@ -115,8 +153,9 @@ class Monster extends Sprite {
                     y: target.position.y,
                     onComplete: () => {
                         // Pokemon gets hit
+                        audio.FireballHit.play()
                         gsap.to(healthBar, {
-                            width: (this.health / this.maxHealth) * 100 + '%'
+                            width: (target.health / target.maxHealth) * 100 + '%'
                         })
                         gsap.to(target.position, {
                             x: target.position.x + 10,
@@ -124,6 +163,7 @@ class Monster extends Sprite {
                             repeat: 4,
                             duration: 0.07,
                             onComplete() {
+
                                 gsap.to(target.position,
                                     {
                                         x: target.position.x - 10
@@ -152,8 +192,9 @@ class Monster extends Sprite {
                     onComplete: () => {
 
                         // Pokemon gets hit
+                        audio.Tackle.play()
                         gsap.to(healthBar, {
-                            width: (this.health / this.maxHealth) * 100 + '%'
+                            width: (target.health / target.maxHealth) * 100 + '%'
                         })
                         gsap.to(target.position, {
                             x: target.position.x + 10,
