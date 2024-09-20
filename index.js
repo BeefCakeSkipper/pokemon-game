@@ -43,10 +43,10 @@ for (let i = 0; i < battleZonesData.length; i += 70) {
 const chanceEncounter = 0.01
 const boundaries = []
 const offset = {
-    x: 30,
-    y: -260
+    x: -window.innerWidth * 0.315,
+    y: -window.innerHeight*0.76
 }
-
+console.log(offset)
 
 collisionsMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
